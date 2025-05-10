@@ -65,7 +65,6 @@ Here are a few examples of what's included in this repository:
 **Yoan Rifqi Candra**  
 🎓 Bachelor's in Informatics — Universitas Syiah Kuala (Cum Laude, GPA: 3.74)  
 📌 Focus: Data Science & Machine Learning
-
 🎓 Certified TensorFlow Developer, Certified Associated Data Science (BNSP), Certificed Databases Programming (BNSP)  
 📫 LinkedIn: [linkedin.com/in/yoanrifqi](https://www.linkedin.com/in/yoanrifqi)  
 📧 Email: [yoanrifqi@gmail.com](mailto:yoanrifqi@gmail.com) 
