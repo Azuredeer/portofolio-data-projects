@@ -1,0 +1,11 @@
+# rentang index score setiap cluster
+Cluster 0 = 37,3 - 66,4 => rendah
+Cluster 1 = 56,1 - 74,3 => rendah - menengah
+Cluster 2 = 63,5 - 85,0 => menengah - atas
+Cluster 3 = 45,0 - 71,6 => rendah - menengah
+Cluster 4 = 62,4 - 80,7 => menengah - atas
+Cluster 5 = 55,3 - 74,7 => rendah - menengah
+
+- Kesimpulan :
+negara cluster 2 lebih tinggi dari negara cluster 4 sehingga cluster 2 akan menjadi acuan dalam membandingkan dengan negara Indonesia.
+
