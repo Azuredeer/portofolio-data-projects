@@ -44,7 +44,8 @@ Dataset yang digunakan berasal dari data historis harga saham PT Bank Mandiri (P
 - Menghilangkan tanda persen pada kolom "Change"
 
 ### Exploratori Data Analisis
-![Teks alternatif](image/data_describe.png)
+![Teks alternatif](image/data_describe.PNG)
+
 Dataset ini terdiri dari 1024 entri yang mencakup periode januari 2021 hingga April 2025, menunjukkan harga stabil dengan kisaran 5-6.15 (deviasi standar ~1.3) dan volume perdagangan bervariasi (104.93-124.47, deviasi 70.96). Namun, nilai rata-rata harga dan volume yang tidak wajar yaitu 1024 yang mengindikasikan kemungkinan kesalahan perhitungan. Perubahan harga harian relatif kecil yaitu ~50% hingga +1.05%.
 
 ![Teks alternatif](image/data_korelasi.png)
