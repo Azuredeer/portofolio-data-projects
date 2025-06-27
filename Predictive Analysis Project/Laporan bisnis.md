@@ -9,6 +9,9 @@ Masalah utama dalam dunia investasi adalah tingginya ketidakpastian pasar. Oleh 
 
 Menurut studi oleh Atsalakis dan Valavanis (2009), penggunaan metode kecerdasan buatan seperti Artificial Neural Networks (ANN) dan Support Vector Machine (SVM) telah terbukti mampu meningkatkan akurasi dalam memprediksi harga saham dibandingkan pendekatan statistik konvensional. Oleh karena itu, penelitian ini akan mengeksplorasi model machine learning dalam memprediksi harga saham BMRI dengan fokus pada akurasi dan keandalan prediksi.
 
+Sumber data:
+https://id.investing.com/equities/bank-mandiri-t-historical-data
+
 Referensi:
 Atsalakis, G. S., & Valavanis, K. P. (2009). Surveying stock market forecasting techniques–Part II: Soft computing methods. Expert Systems with Applications, 36(3), 5932–5941.
 
@@ -42,6 +45,17 @@ Dataset yang digunakan berasal dari data historis harga saham PT Bank Mandiri (P
 - Mengubah tipe data untuk kolom Date dari object menjadi datetime
 - Mengubah nama kolom agar lebih mudah diingat
 - Menghilangkan tanda persen pada kolom "Change"
+- Jumlah Data 1024 data dan 7 Kolom
+- Tidak ada duplikasi data
+- Tidak ada missing values
+- Mengganti nama kolom agar lebih familiar dan mudah di proses pada tahap berikutnya, seperti 
+    - Tanggal => Data
+    - Terakhir => Close
+    - Pembukaan => Open
+    - Tertinggi => High
+    - Terendah => Low
+    - Vol => Volume
+    - Perubahan% => Change(%)
 
 ### Exploratori Data Analisis
 ![Teks alternatif](image/data_describe.PNG)
@@ -71,6 +85,10 @@ Bagian kode menunjukkan bahwa beberapa kolom ('Open', 'High', 'Low', 'Vol', 'Cha
 Tujuan proses ini dilakukan untuk menyesuaikan data dengan kebutuhan model prediksi (memilih kolom relevan dan mengubah nama agar sesuai format input model) dan menyederhanakan dataset.
 
 ## Modelling
+Model Prophet merupakan sebuah model time series forecasting yang dikembangkan oleh Facebook, dirancang untuk menangani data deret waktu dengan komponen tren, musiman, dan libur secara fleksibel. Cara kerjanya berdasarkan pendekatan aditif, di mana total nilai yang diprediksi merupakan hasil penjumlahan dari komponen tren jangka panjang, pola musiman (seperti harian atau tahunan), dan noise atau error acak. Dalam kode yang digunakan, model diinisialisasi dengan parameter ``daily_seasonality=True`` dan ``yearly_seasonality='auto'``. Parameter daily_seasonality=True digunakan untuk mengaktifkan pola musiman harian, yang berguna ketika data memiliki pola berulang setiap hari, sedangkan ``yearly_seasonality='auto'`` memungkinkan Prophet secara otomatis mendeteksi apakah terdapat pola tahunan dalam data.
+
+Setelah model diinisialisasi, proses pelatihan dilakukan dengan fungsi ``fit()`` menggunakan model_df, yaitu DataFrame yang berisi dua kolom utama: ``ds`` untuk tanggal dan ``y`` untuk nilai yang ingin diprediksi. Selanjutnya, Prophet membuat rentang waktu untuk prediksi menggunakan make_future_dataframe(periods=365), yang dalam hal ini menambahkan 365 hari ke depan untuk diramal. Setelah tanggal-tanggal tersebut dibuat, proses prediksi dilakukan dengan fungsi ``predict()``, yang menghasilkan nilai prediksi tengah (``yhat``) beserta batas bawah (``yhat_lower``) dan batas atas (``yhat_upper``) sebagai interval kepercayaan. Model ini sangat cocok digunakan dalam berbagai kebutuhan bisnis karena kemampuannya menangani data tidak lengkap, mendeteksi tren secara otomatis, dan menyederhanakan proses peramalan tanpa perlu pengetahuan statistik yang kompleks.
+
 ![Teks alternatif](image/inisiasi_model.PNG)
 
 Proses inisiasi dan pelatihan model Prophet. Pertama, sebuah objek model Prophet dibuat dengan mengaktifkan seasonalitas tahunan (``yearly_seasonality='auto'``). Kemudian, model yang telah diinisialisasi ini dilatih menggunakan data yang telah dipersiapkan sebelumnya yang disimpan dalam dataframe bernama model_df. Proses pelatihan ini memungkinkan model untuk mempelajari pola temporal dalam data historis sehingga dapat digunakan untuk melakukan prediksi masa depan.
@@ -91,6 +109,10 @@ Grafik tersebut menampilkan hasil prediksi harga saham BMRI di masa depan (garis
 
 Gambar tersebut menyajikan dekomposisi model Prophet terhadap prediksi harga saham BMRI yang menampilkan tren dasar yang cenderung meningkat hingga pertengahan tahun 2024 kemudian menurun, pola mingguan yang menunjukkan variasi kecil dengan puncak hari Kamis dan lembah pada hari Rabu, pola tahunan yang memperlihatkan fluktuasi signifikan sepanjang tahun dengan kenaikan di sekitar akhir tahun dan penurunan di pertengahan tahun, serta pola harian yang menunjukkan perubahan dalam sehari namun dengan skala yang jauh lebih kecil dibandingkan pola mingguan dan tahunan. Analisis komponen-komponen ini membantu memahami faktor-faktor temporal yang mempengaruhi prediksi harga saham BMRI.
 
+Model Prophet memiliki sejumlah kelebihan yang membuatnya populer, terutama di kalangan praktisi bisnis dan analis data non-teknis. Salah satu keunggulan utamanya adalah kemudahan penggunaan, di mana pengguna hanya perlu menyiapkan data time series dengan dua kolom utama, yaitu tanggal (``ds``) dan nilai (``y``). Prophet juga mampu menangani data yang memiliki missing values, outlier, atau perubahan tren secara tiba-tiba, tanpa memerlukan pra-pemrosesan yang kompleks. Selain itu, Prophet secara otomatis mengidentifikasi dan memodelkan komponen musiman harian, mingguan, maupun tahunan, serta dapat mengakomodasi libur atau event khusus. Karena model ini menggunakan pendekatan aditif berbasis regresi linier dengan Fourier series untuk musiman, hasilnya pun dapat dengan mudah diinterpretasikan dan dijelaskan secara visual. Prophet juga mendukung forecasting jangka panjang, serta memberikan interval prediksi (upper dan lower bound) yang berguna untuk memperkirakan ketidakpastian.
+
+Namun, Prophet juga memiliki beberapa kekurangan. Model ini kurang cocok digunakan untuk data yang sangat kompleks atau memiliki hubungan non-linier yang kuat, seperti data dengan ketergantungan antar variabel atau yang dipengaruhi oleh faktor eksternal yang signifikan. Selain itu, Prophet tidak mengakomodasi fitur atau variabel independen tambahan secara langsung seperti pada model machine learning lainnya (misalnya XGBoost atau LSTM), meskipun dapat ditambahkan melalui ekstensi manual. Prophet juga mengasumsikan bahwa tren dan musiman bersifat aditif dan terpisah, sehingga tidak selalu efektif untuk data yang memiliki interaksi kompleks antar komponen. Di sisi performa, Prophet bisa kalah akurat dibanding model time series tradisional seperti ARIMA, SARIMA, atau model deep learning, terutama jika data tidak memiliki pola musiman yang jelas. Oleh karena itu, meskipun Prophet sangat praktis untuk pemodelan awal dan analisis eksploratif, penting untuk mempertimbangkan model alternatif jika dibutuhkan prediksi yang lebih presisi dan kompleks.
+
 ## Evaluation
 ![Teks alternatif](image/cross_validation.PNG)
 
@@ -105,6 +127,26 @@ Gambar tersebut menyajikan metrik evaluasi kinerja model prediksi harga saham BM
 Gambar ini melanjutkan evaluasi model prediksi harga saham BMRI untuk horizon waktu yang lebih panjang, yaitu 116 hingga 120 hari ke depan. Terlihat bahwa metrik kesalahan seperti MSE, RMSE, MAE, MAPE, MDAPE, dan SMAPE secara umum menunjukkan tren peningkatan seiring dengan bertambahnya horizon prediksi yang konsisten dengan pengamatan pada horizon waktu yang lebih pendek. Hal ini mengindikasikan bahwa akurasi prediksi model cenderung menurun ketika mencoba memprediksi harga saham untuk jangka waktu yang lebih jauh ke depan. Sementara itu, nilai coverage juga menunjukkan penurunan yang bertahap yang berarti model menjadi kurang yakin dalam mencakup nilai aktual dalam interval prediksinya untuk horizon yang lebih panjang. 
 
 ### Kesimpulan
+1. Bagaimana tren harga saham BMRI berkembang dari waktu ke waktu?
+Jawab : Tren harga saham BMRI menunjukkan dinamika yang cukup kompleks. Pada awal grafik (2021), harga berada di level tinggi sekitar Rp7.000-an, kemudian mengalami penurunan tajam hingga sekitar Rp3.000. Setelah itu, harga mulai mengalami tren naik yang konsisten sepanjang tahun 2022 hingga pertengahan 2024. Namun, setelah pertengahan 2024, harga menunjukkan penurunan signifikan dan terus berlanjut menurun hingga prediksi ke depan (2025-2026). Ini ditandai dengan garis biru yang melandai ke bawah serta label "Tren Turun" yang kamu tandai di grafik.
+
+2. Kapan waktu yang tepat untuk membeli atau menjual saham BMRI?
+Jawab : 
+Waktu membeli: Idealnya dilakukan saat harga berada di titik rendah namun mulai menunjukkan indikasi pemulihan. Dalam grafik ini, momen tersebut tampak terjadi pada pertengahan hingga akhir 2021, saat tren mulai naik. Jika melihat ke masa depan, pembelian mungkin bisa dipertimbangkan saat harga mulai stabil kembali setelah penurunan panjang — tetapi perlu dikonfirmasi dengan data aktual saat itu.
+
+Waktu menjual: Dapat dilakukan saat harga berada dalam puncak tren naik. Misalnya, menjelang akhir 2023 atau awal 2024 ketika harga berada pada titik tertinggi sebelum mulai menurun kembali. Penjualan di masa prediksi harus berhati-hati karena grafik menunjukkan tren turun cukup panjang.
+
+3. Bagaimana pengaruh volume transaksi terhadap volatilitas harga saham?
+Jawab : 
+Meskipun grafik ini tidak secara eksplisit menampilkan volume transaksi, dalam praktik pasar saham secara umum, volume transaksi memiliki korelasi kuat terhadap volatilitas harga:
+- Volume tinggi seringkali menunjukkan minat pasar yang besar dan bisa menyebabkan pergerakan harga tajam, baik naik maupun turun.
+- Volume rendah biasanya berkaitan dengan pergerakan harga yang lambat atau sideways.
+Untuk mengukur pengaruh pastinya, kamu bisa menambahkan data volume ke dalam analisis regresi atau melihat korelasi antara volume dan perubahan harga harian.
+
+4. Bagaimana memprediksi harga saham BMRI di masa depan berdasarkan data historis?
+Jawab :
+Model Prophet seperti yang kamu gunakan mampu memprediksi harga saham dengan pendekatan berbasis tren dan musiman. Berdasarkan grafik, prediksi ke depan menunjukkan tren penurunan berkelanjutan, dengan interval kepercayaan (area biru) yang semakin lebar, menandakan ketidakpastian prediksi semakin tinggi seiring waktu. Prophet memanfaatkan pola masa lalu untuk membentuk proyeksi masa depan. Namun, karena model ini tidak mempertimbangkan faktor eksternal (seperti kondisi ekonomi, sentimen pasar, atau kebijakan pemerintah), maka prediksi sebaiknya digunakan sebagai panduan awal, dan dilengkapi dengan analisis fundamental maupun teknikal lainnya.
+
 Model Prophet yang digunakan mampu menangkap pola tren dan musiman dari pergerakan harga saham BMRI. Hal ini terlihat dari hasil dekomposisi komponen tren dan seasonalitas yang ditampilkan oleh model. Namun, semakin jauh waktu prediksi ke depan, akurasi model cenderung menurun. Ini ditunjukkan oleh meningkatnya nilai kesalahan serta melemahnya tingkat kepercayaan model.
 Untuk prediksi jangka pendek, misalnya untuk beberapa hari ke depan, hasilnya lebih akurat dan bisa dijadikan pertimbangan. Sementara untuk jangka panjang seperti beberapa bulan ke depan hasil prediksi menjadi lebih tidak pasti dan yang terlihat dari rentang interval kepercayaan yang semakin lebar.
 Kesimpulannya, model Prophet cukup membantu untuk melihat arah pergerakan harga saham dalam waktu dekat. Namun, hasil prediksi tetap perlu ditafsirkan dengan hati-hati terutama jika digunakan untuk investasi jangka panjang.
