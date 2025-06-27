@@ -128,15 +128,18 @@ Gambar ini melanjutkan evaluasi model prediksi harga saham BMRI untuk horizon wa
 
 ### Kesimpulan
 1. Bagaimana tren harga saham BMRI berkembang dari waktu ke waktu?
+
 Jawab : Tren harga saham BMRI menunjukkan dinamika yang cukup kompleks. Pada awal grafik (2021), harga berada di level tinggi sekitar Rp7.000-an, kemudian mengalami penurunan tajam hingga sekitar Rp3.000. Setelah itu, harga mulai mengalami tren naik yang konsisten sepanjang tahun 2022 hingga pertengahan 2024. Namun, setelah pertengahan 2024, harga menunjukkan penurunan signifikan dan terus berlanjut menurun hingga prediksi ke depan (2025-2026). Ini ditandai dengan garis biru yang melandai ke bawah serta label "Tren Turun" yang kamu tandai di grafik.
 
 2. Kapan waktu yang tepat untuk membeli atau menjual saham BMRI?
+
 Jawab : 
 Waktu membeli: Idealnya dilakukan saat harga berada di titik rendah namun mulai menunjukkan indikasi pemulihan. Dalam grafik ini, momen tersebut tampak terjadi pada pertengahan hingga akhir 2021, saat tren mulai naik. Jika melihat ke masa depan, pembelian mungkin bisa dipertimbangkan saat harga mulai stabil kembali setelah penurunan panjang — tetapi perlu dikonfirmasi dengan data aktual saat itu.
 
 Waktu menjual: Dapat dilakukan saat harga berada dalam puncak tren naik. Misalnya, menjelang akhir 2023 atau awal 2024 ketika harga berada pada titik tertinggi sebelum mulai menurun kembali. Penjualan di masa prediksi harus berhati-hati karena grafik menunjukkan tren turun cukup panjang.
 
 3. Bagaimana pengaruh volume transaksi terhadap volatilitas harga saham?
+
 Jawab : 
 Meskipun grafik ini tidak secara eksplisit menampilkan volume transaksi, dalam praktik pasar saham secara umum, volume transaksi memiliki korelasi kuat terhadap volatilitas harga:
 - Volume tinggi seringkali menunjukkan minat pasar yang besar dan bisa menyebabkan pergerakan harga tajam, baik naik maupun turun.
@@ -144,9 +147,11 @@ Meskipun grafik ini tidak secara eksplisit menampilkan volume transaksi, dalam p
 Untuk mengukur pengaruh pastinya, kamu bisa menambahkan data volume ke dalam analisis regresi atau melihat korelasi antara volume dan perubahan harga harian.
 
 4. Bagaimana memprediksi harga saham BMRI di masa depan berdasarkan data historis?
+
 Jawab :
 Model Prophet seperti yang kamu gunakan mampu memprediksi harga saham dengan pendekatan berbasis tren dan musiman. Berdasarkan grafik, prediksi ke depan menunjukkan tren penurunan berkelanjutan, dengan interval kepercayaan (area biru) yang semakin lebar, menandakan ketidakpastian prediksi semakin tinggi seiring waktu. Prophet memanfaatkan pola masa lalu untuk membentuk proyeksi masa depan. Namun, karena model ini tidak mempertimbangkan faktor eksternal (seperti kondisi ekonomi, sentimen pasar, atau kebijakan pemerintah), maka prediksi sebaiknya digunakan sebagai panduan awal, dan dilengkapi dengan analisis fundamental maupun teknikal lainnya.
 
 Model Prophet yang digunakan mampu menangkap pola tren dan musiman dari pergerakan harga saham BMRI. Hal ini terlihat dari hasil dekomposisi komponen tren dan seasonalitas yang ditampilkan oleh model. Namun, semakin jauh waktu prediksi ke depan, akurasi model cenderung menurun. Ini ditunjukkan oleh meningkatnya nilai kesalahan serta melemahnya tingkat kepercayaan model.
+
 Untuk prediksi jangka pendek, misalnya untuk beberapa hari ke depan, hasilnya lebih akurat dan bisa dijadikan pertimbangan. Sementara untuk jangka panjang seperti beberapa bulan ke depan hasil prediksi menjadi lebih tidak pasti dan yang terlihat dari rentang interval kepercayaan yang semakin lebar.
 Kesimpulannya, model Prophet cukup membantu untuk melihat arah pergerakan harga saham dalam waktu dekat. Namun, hasil prediksi tetap perlu ditafsirkan dengan hati-hati terutama jika digunakan untuk investasi jangka panjang.
